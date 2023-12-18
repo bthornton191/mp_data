@@ -1,0 +1,19 @@
+{
+    "python.analysis.extraPaths": [
+        "C:\\Users\\ben.thornton\\Code\\thornpy",
+        "C:\\Users\\ben.thornton\\Code\\adamspy",
+        "C:\\Users\\ben.thornton\\Code\\aviewpy",
+        "C:\\Users\\ben.thornton\\Code\\adams_shell_wear",
+        "c:\\Users\\ben.thornton\\.vscode\\extensions\\savvyanalyst.msc-adams-0.4.1\\resources\\adamspy",
+        "c:\\Users\\ben.thornton\\.vscode\\extensions\\savvyanalyst.msc-adams-0.4.2\\resources\\adamspy",
+        "c:\\Users\\ben.thornton\\.vscode\\extensions\\savvyanalyst.msc-adams-0.4.3\\resources\\adamspy"
+    ],
+    "python.autoComplete.extraPaths": [
+        "C:\\Users\\ben.thornton\\Code\\thornpy",
+        "C:\\Users\\ben.thornton\\Code\\adamspy",
+        "C:\\Users\\ben.thornton\\Code\\aviewpy",
+        "C:\\Users\\ben.thornton\\Code\\adams_shell_wear",
+        "c:\\Users\\ben.thornton\\.vscode\\extensions\\savvyanalyst.msc-adams-0.4.2\\resources\\adamspy",
+        "c:\\Users\\ben.thornton\\.vscode\\extensions\\savvyanalyst.msc-adams-0.4.3\\resources\\adamspy"
+    ]
+}

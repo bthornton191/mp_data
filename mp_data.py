@@ -1,12 +1,42 @@
+import csv
+import logging
 import re
 
+import matplotlib.pyplot as plt
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import matplotlib.pyplot as plt
+import requests
 
 RE_YDS = re.compile(r'5\.(\d{1,2})\s*([abcd\+])?\s*R?', flags=re.IGNORECASE)
 RE_VERMIN = re.compile(r'V(.+)\s*R?', flags=re.IGNORECASE)
+COLUMNS = ['Date', 'Route', 'Style', 'Lead Style', 'Route Type', 'Grade', 'Subgrade']
+LOG = logging.getLogger(__name__)
+
+
+def get_data(url: str):
+
+    if url is not None and url.strip() != '':
+        # Read in the data from mountain project
+        df = pd.DataFrame(csv.reader(requests.get(url).text.splitlines()))
+
+        # Set the first line as the header
+        df = df.set_axis(df.iloc[0], axis=1).iloc[1:]
+
+        # Tweak the data
+        df = (df
+              .assign(**{'Grade': df['Rating'].apply(get_grade)})                                 # Get the number grade (e.g. 11)
+              .assign(**{'Subgrade': df['Rating'].apply(get_subgrade)})                           # Get the letter grade (e.g. a)
+              #   .assign(**{'Date': pd.to_datetime(df['Date'])})                                     # Get the year of the send
+              .assign(**{'Style': df['Style'].str.lower()})                                       # Change values to lowercase
+              .assign(**{'Lead Style': df['Lead Style'].str.lower()})                             # Change values to lowercase
+              .assign(**{'Route Type': df['Route Type'].str.lower()})                             # Change values to lowercase
+              [COLUMNS])      # Keep only certain columns
+
+    else:
+        df = pd.DataFrame(columns=COLUMNS)
+
+    return df
 
 
 def get_subgrade(rating):
@@ -32,7 +62,7 @@ def get_grade(rating):
         try:
             grade = int(match.groups()[0])
         except Exception:
-            pass
+            LOG.warning(f'Could not parse grade from {rating}')
 
     elif (match := RE_VERMIN.match(rating.replace('-easy', '0'))) is not None:
         grade = int(re.split('[-+]', match.groups()[0])[0])
